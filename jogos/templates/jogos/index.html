@@ -1,0 +1,50 @@
+{% extends 'jogos/base.html' %}
+{%block main %}
+        <header class="topo">
+            <span class="sobretitulo">Jogos Interclasses 2026</span>
+            <h1>Equipes inscritas</h1>
+            <p class="descricao">Conheça as equipes que disputam os Jogos Interclasses do campus.</p>
+        </header>
+
+        <div class="busca">
+            <label for="busca">Buscar equipe</label>
+            <input type="search" id="busca" placeholder="Digite o nome da equipe">
+        </div>
+
+
+        
+        <section class="grade" id="lista-equipes">
+            {% for equipe in equipes %}
+            <article class="card" style="border-top-color: {{equipe.cor}};">
+                <h3>{{equipe.nome}}</h3>
+                <dl>
+                    <dt>Curso</dt>
+                    <dd>{{equipe.curso}}</dd>
+                    <dt>Técnico</dt>
+                    <dd>{% if equipe.tecnico%}
+                        {{equipe.tecnico.nome}}
+                        {%else%}
+                        não definido
+                        {% endif %}
+                    </dd>
+                    <dt>Atletas</dt>
+                    <dd>{{equipe.atletas.count}}</dd>
+                </dl>
+                <a class="link" href="{% url 'jogos:equipe' id=equipe.id %}">Ver equipe</a>
+            </article>
+            {% empty %}
+                <p class="sem-resultado" id="sem-resultado">Nenhuma equipe encontrada.</p>
+            {% endfor %}
+        </section>
+        
+
+        
+        
+        <h2>Modalidades</h2>
+        <ul class="lista-modalidades">
+            {% for modalidade in modalidades%}
+                <li><a href="{% url 'jogos:modalidade' id=modalidade.id %}">{{modalidade.nome}}</a></li>
+            {% endfor %}
+        </ul>
+        
+{%endblock%}

@@ -1,0 +1,51 @@
+{% extends "jogos/base.html" %}
+{% block title %}
+{{modalidade.nome}} | SGJogos
+{% endblock %}
+{% block main %}
+        <nav class="trilha"><a href="{% url 'jogos:index' %}">Equipes</a> / {{modalidade.nome}}</nav>
+
+        <header class="topo">
+            <span class="sobretitulo">Modalidade</span>
+            <h1>{{modalidade.nome}}</h1>
+        </header>
+
+        <dl class="numeros">
+            <div>
+                <dt>Tipo</dt>
+                <dd>{{modalidade.tipo}}</dd>
+            </div>
+            <div>
+                <dt>Máximo por equipe</dt>
+                <dd>{{modalidade.max_atletas}}</dd>
+            </div>
+            <div>
+                <dt>Atletas inscritos</dt>
+                <dd>{{modalidade.atletas.count}}</dd>
+            </div>
+        </dl>
+
+        <h2>Atletas inscritos</h2>
+        <div class="tabela">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Equipe</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for atleta in modalidade.atletas.all%}
+                    <tr>
+                        <td>{{atleta.nome}}</td>
+                        <td><a href="{% url "jogos:equipe" id=atleta.equipe.id %}"> {{atleta.equipe.nome}} </a></td>
+                    </tr>
+                    {% empty%}
+                    <!-- Quando a modalidade não tiver atletas, a tabela deve ter apenas esta linha: -->
+                    <tr><td class="vazio" colspan="2">Nenhum atleta inscrito nesta modalidade.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}
